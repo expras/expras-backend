@@ -1,8 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 const axios = require("axios");
 require("dotenv").config();
+
+// Optional if using router separately, otherwise middleware is already set in server.js
+router.use(bodyParser.json());
 
 const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com",
@@ -45,6 +49,7 @@ router.post("/", async (req, res) => {
       subject: `Confirmation – EXPRAS [${reference}]`,
       html: htmlTemplate
     });
+
     console.log("✅ Email sent to:", data.email);
 
     await axios.post("https://script.google.com/macros/s/AKfycbzOq_OhZJDx6jSn4uu3bu2xFRrrg6r8yWc0VGIBGCanyYI0Nffvqa5zr4aRHKNIrsC8/exec", {
