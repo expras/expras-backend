@@ -1,7 +1,7 @@
 {
   "name": "expras-booking-backend",
   "version": "1.0.0",
-  "description": "Backend for sending booking confirmation emails and Google Sheets integration",
+  "description": "Backend for Expras booking system",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
