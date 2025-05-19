@@ -3,14 +3,14 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const createPaymentRoute = require("./create-payment");
-const confirmRoute = require("./sendEmail"); // make sure this is exported correctly
+const confirmRoute = require("./sendEmail"); // this is what we just fixed
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/create-payment", createPaymentRoute);
-app.use("/confirm", confirmRoute); // add this line if not yet added
+app.use("/confirm", confirmRoute);
 
 app.get("/", (req, res) => {
   res.send("✅ EXPRAS backend is running");
