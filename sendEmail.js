@@ -1,4 +1,6 @@
 const express = require("express");
+const createPaymentRoute = require('./create-payment');
+
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 const axios = require("axios");
@@ -7,6 +9,8 @@ require("dotenv").config(); // Load .env file
 
 const app = express();
 app.use(cors());
+app.use('/create-payment', createPaymentRoute);
+
 app.use(bodyParser.json());
 
 const transporter = nodemailer.createTransport({
