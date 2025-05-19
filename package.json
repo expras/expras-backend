@@ -2,9 +2,9 @@
   "name": "expras-booking-backend",
   "version": "1.0.0",
   "description": "Backend for sending booking confirmation emails and Google Sheets integration",
-  "main": "sendEmail.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node sendEmail.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "axios": "^1.6.8",
