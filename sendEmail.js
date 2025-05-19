@@ -1,29 +1,20 @@
 const express = require("express");
-const createPaymentRoute = require('./create-payment');
-
-const bodyParser = require("body-parser");
+const router = express.Router();
 const nodemailer = require("nodemailer");
 const axios = require("axios");
-const cors = require("cors");
-require("dotenv").config(); // Load .env file
-
-const app = express();
-app.use(cors());
-app.use('/create-payment', createPaymentRoute);
-
-app.use(bodyParser.json());
+require("dotenv").config();
 
 const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com",
-  port: 587, // use 587 (TLS) or 465 (SSL)
-  secure: false, // true if using port 465
+  port: 587,
+  secure: false,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS
   }
 });
 
-app.post("/confirm", async (req, res) => {
+router.post("/", async (req, res) => {
   const data = req.body;
   const reference = "EX-" + Date.now();
   const trackingLink = `https://expras.com/track/${reference}`;
@@ -68,8 +59,4 @@ app.post("/confirm", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
-});
-
+module.exports = router;
