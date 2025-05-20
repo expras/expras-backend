@@ -4,16 +4,16 @@ const axios = require('axios');
 require('dotenv').config(); // Load MOLLIE_KEY from .env
 
 router.post('/', async (req, res) => {
+  console.log('Incoming body:', req.body); // ✅ Debug log
+
   const { totalAmount, email } = req.body;
 
-  // Validate input safely
+  // ✅ Safe validation
   if (
-    typeof totalAmount === 'undefined' || 
-    typeof email === 'undefined' ||
-    totalAmount === null || 
-    email === null ||
-    totalAmount === '' ||
-    email.trim() === ''
+    !totalAmount ||
+    !email ||
+    totalAmount.toString().trim() === '' ||
+    email.toString().trim() === ''
   ) {
     return res.status(400).json({ error: 'Missing totalAmount or email' });
   }
