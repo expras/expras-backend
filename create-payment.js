@@ -7,9 +7,9 @@ router.post('/', async (req, res) => {
   try {
     const { totalAmount, email } = req.body;
 
-    if (!totalAmount || !email) {
-      return res.status(400).json({ error: 'Missing totalAmount or email' });
-    }
+    if (!totalAmount?.toString().trim() || !email?.toString().trim()) {
+  return res.status(400).json({ error: 'Missing totalAmount or email' });
+}
 
     const formattedAmount = parseFloat(totalAmount).toFixed(2).toString(); // Ensures valid format
 
