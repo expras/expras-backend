@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-require('dotenv').config(); // Optional if deployed — handled by Render env
+require('dotenv').config(); // Make sure env vars are loaded
 
 router.post('/', async (req, res) => {
   const { totalAmount, email } = req.body;
@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
       {
         amount: {
           currency: 'EUR',
-          value: parseFloat(totalAmount).toFixed(2),
+          value: parseFloat(totalAmount).toFixed(2).toString(), // ✅ Always a string with 2 decimals
         },
         description: 'Réservation EXPRAS',
         redirectUrl: 'https://expras.com/thankyou.html',
@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
       },
       {
         headers: {
-          Authorization: `Bearer ${process.env.MOLLIE_KEY}`,
+          Authorization: `Bearer ${process.env.MOLLIE_KEY}`, // ✅ Secure from env
           'Content-Type': 'application/json',
         },
       }
@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
   } catch (error) {
     console.error('Mollie error:', error.response?.data || error.message);
     res.status(500).json({
-      error: error.response?.data || error.message || 'Unknown error'
+      error: error.response?.data || error.message || 'Unknown error',
     });
   }
 });
