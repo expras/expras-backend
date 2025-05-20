@@ -2,17 +2,16 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-const app = express(); // must be defined before using app.use()
+const app = express(); // ✅ app must be defined before using it
 
-// ✅ Middleware to parse JSON
-app.use(express.json());
+app.use(express.json()); // ✅ parse JSON body
 app.use(cors());
 
 // ✅ Routes
 const createPayment = require('./routes/create-payment');
 app.use('/create-payment', createPayment);
 
-// Optional test route
+// Optional health check
 app.get('/', (req, res) => {
   res.send('Expras backend is live.');
 });
