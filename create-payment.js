@@ -1,4 +1,16 @@
-const express = require('express');
+catch (error) {
+  console.error('Mollie error:', error.response?.data || error.message);
+  res.status(500).json({
+    error: error.response?.data || error.message || 'Unknown error'
+  }); catch (error) {
+    console.error('Mollie error:', error.response?.data || error.message);
+    res.status(500).json({
+      error: error.response?.data || error.message || 'Unknown error'
+    });
+  }
+});
+
+module.exports = router;const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 require('dotenv').config(); // Ensure env vars like MOLLIE_KEY are available
