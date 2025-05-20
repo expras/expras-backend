@@ -1,22 +1,24 @@
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-
-const createPaymentRoute = require("./create-payment");
-const confirmRoute = require("./sendEmail");
-
+const express = require('express');
 const app = express();
+const cors = require('cors');
+require('dotenv').config();
+
+// ✅ Enable JSON parsing middleware
+app.use(express.json());
 app.use(cors());
-app.use(bodyParser.json());
 
-app.use("/create-payment", createPaymentRoute);
-app.use("/confirm", confirmRoute);
+// ✅ Route setup
+const createPaymentRoute = require('./routes/create-payment'); // adjust if needed
+app.use('/create-payment', createPaymentRoute);
 
-app.get("/", (req, res) => {
-  res.send("✅ EXPRAS backend is running");
+// Optional: root route for testing
+app.get('/', (req, res) => {
+  res.send('Expras backend is running.');
 });
 
+// ✅ Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`✅ Server is running on port ${PORT}`);
+  console.log(`Server listening on port ${PORT}`);
 });
+
