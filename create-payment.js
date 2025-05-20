@@ -1,18 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-require('dotenv').config(); // Make sure env vars are loaded
+require('dotenv').config(); // Load env vars like MOLLIE_KEY
 
 router.post('/', async (req, res) => {
-  const { totalAmount, email } = req.body;
-
   try {
+    const { totalAmount, email } = req.body;
+
+    if (!totalAmount || !email) {
+      return res.status(400).json({ error: 'Missing totalAmount or email' });
+    }
+
+    const formattedAmount = parseFloat(totalAmount).toFixed(2).toString(); // Ensures valid format
+
     const response = await axios.post(
       'https://api.mollie.com/v2/payments',
       {
         amount: {
           currency: 'EUR',
-          value: parseFloat(totalAmount).toFixed(2).toString(), // ✅ Always a string with 2 decimals
+          value: formattedAmount, // must be string like "65.00"
         },
         description: 'Réservation EXPRAS',
         redirectUrl: 'https://expras.com/thankyou.html',
@@ -21,7 +27,7 @@ router.post('/', async (req, res) => {
       },
       {
         headers: {
-          Authorization: `Bearer ${process.env.MOLLIE_KEY}`, // ✅ Secure from env
+          Authorization: `Bearer ${process.env.MOLLIE_KEY}`,
           'Content-Type': 'application/json',
         },
       }
