@@ -1,4 +1,3 @@
-"start": "node server.js"ºº0)0
 {
   "name": "expras-booking-backend",
   "version": "1.0.0",
@@ -15,5 +14,6 @@
     "express": "^4.21.2",
     "nodemailer": "^6.10.1"
   }
+}
 
 
