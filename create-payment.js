@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
+require('dotenv').config(); // Ensure env vars like MOLLIE_KEY are available
 
 router.post('/', async (req, res) => {
   const { totalAmount, email } = req.body;
@@ -20,7 +21,7 @@ router.post('/', async (req, res) => {
       },
       {
         headers: {
-          Authorization: `Bearer test_4GhE5A3R4J9JgcUyjE4gCHHvgn6M8y`,
+          Authorization: `Bearer ${process.env.MOLLIE_KEY}`,
           'Content-Type': 'application/json',
         },
       }
@@ -34,3 +35,4 @@ router.post('/', async (req, res) => {
 });
 
 module.exports = router;
+
