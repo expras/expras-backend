@@ -2,23 +2,23 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-const app = express(); // ✅ app must be defined before using it
+const app = express();
 
-app.use(express.json()); // ✅ parse JSON body
+// ✅ MUST be above routes
+app.use(express.json());
 app.use(cors());
 
-// ✅ Routes
+// ✅ Load your route
 const createPayment = require('./routes/create-payment');
 app.use('/create-payment', createPayment);
 
-// Optional health check
+// Test endpoint
 app.get('/', (req, res) => {
-  res.send('Expras backend is live.');
+  res.send('Server is working!');
 });
 
-// ✅ Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
 

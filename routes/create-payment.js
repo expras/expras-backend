@@ -1,24 +1,31 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-require('dotenv').config(); // Load MOLLIE_KEY
+require('dotenv').config();
 
 router.post('/', async (req, res) => {
   const { totalAmount, email } = req.body;
 
-  if (!totalAmount?.toString().trim() || !email?.toString().trim()) {
+  if (
+    typeof totalAmount === 'undefined' ||
+    typeof email === 'undefined' ||
+    totalAmount === null ||
+    email === null ||
+    totalAmount === '' ||
+    email.trim() === ''
+  ) {
     return res.status(400).json({ error: 'Missing totalAmount or email' });
   }
 
-  const formattedAmount = parseFloat(totalAmount).toFixed(2).toString(); // "65.00"
-
   try {
+    const formattedAmount = parseFloat(totalAmount).toFixed(2).toString();
+
     const response = await axios.post(
       'https://api.mollie.com/v2/payments',
       {
         amount: {
           currency: 'EUR',
-          value: formattedAmount, // Must be string with 2 decimals
+          value: formattedAmount,
         },
         description: 'Réservation EXPRAS',
         redirectUrl: 'https://expras.com/thankyou.html',
