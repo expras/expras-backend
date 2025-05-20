@@ -1,19 +1,7 @@
-catch (error) {
-  console.error('Mollie error:', error.response?.data || error.message);
-  res.status(500).json({
-    error: error.response?.data || error.message || 'Unknown error'
-  }); catch (error) {
-    console.error('Mollie error:', error.response?.data || error.message);
-    res.status(500).json({
-      error: error.response?.data || error.message || 'Unknown error'
-    });
-  }
-});
-
-module.exports = router;const express = require('express');
+const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-require('dotenv').config(); // Ensure env vars like MOLLIE_KEY are available
+require('dotenv').config(); // Optional if deployed — handled by Render env
 
 router.post('/', async (req, res) => {
   const { totalAmount, email } = req.body;
@@ -42,7 +30,9 @@ router.post('/', async (req, res) => {
     res.json({ paymentUrl: response.data._links.checkout.href });
   } catch (error) {
     console.error('Mollie error:', error.response?.data || error.message);
-    res.status(500).json({ error: 'Failed to create Mollie payment' });
+    res.status(500).json({
+      error: error.response?.data || error.message || 'Unknown error'
+    });
   }
 });
 
